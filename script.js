@@ -1,25 +1,50 @@
-let firstCard = Math.floor(Math.random() * 10 + 2);
-let secondCard = Math.floor(Math.random() * 10 + 2);
-let cards = [firstCard, secondCard]
-let sum = firstCard + secondCard;
+// let player = {
+//     name: "Diana",
+//     chips: 145
+// }
+let cards = [];
+let sum = 0;
 let hasBlackjack = false;
-let isAlive = true;
+let isAlive = false;
 let message = "";
 let startBtn = document.getElementById("start-game-btn");
 let messageEl = document.getElementById("message-el")
 let sumEl = document.querySelector("#sum-el")
 let cardsEl = document.querySelector("#cards-el")
-let drawCard = Math.floor(Math.random() * 10 + 2);
 
 
+// let playerEl = document.getElementById("player-el")
+
+// playerEl.textContent = player.name + ": $" + player.chips
+
+
+function getRandomCard() {
+    let randomNumber =Math.floor(Math.random() * 13 + 1);    
+    if (randomNumber > 10 ) {
+        return 10
+    } else if (randomNumber === 1 ) {
+        return 11
+    } else {
+        return randomNumber
+    }
+}
 
 function startGame() {
+    isAlive = true;
+    let firstCard = getRandomCard();
+    let secondCard = getRandomCard();
+    cards = [firstCard, secondCard];
+    sum = firstCard + secondCard;
     renderGame();
 }
 
-function renderGame() {
-    sumEl.textContent = `Sum: ${sum}`;
-    cardsEl.textContent = `Cards: ${cards[0]} ${cards[1]}`;
+function renderGame() {    
+    cardsEl.textContent = "Cards: "
+    for (i=0; i < cards.length; i++) {
+        cardsEl.textContent += cards[i] + " ";
+    }
+    
+    sumEl.textContent = "Sum " + sum;
     if (sum <= 20) {
         message = "Do you want to draw a new card?";
     } else if (sum === 21) {
@@ -33,11 +58,14 @@ function renderGame() {
 }
 
 function newCard() {
-    sum += drawCard;
-    cards.push(drawCard);
-    console.log(cards)
-    cardsEl.textContent = `Cards: ${[...cards]}`;
-    renderGame();
+    if (isAlive && hasBlackjack !== true) {
+        let drawCard = getRandomCard();
+        sum += drawCard;
+        cards.push(drawCard);
+        console.log(cards);
+        renderGame();
+    }
+    
     
 }
 console.log(drawCard)
